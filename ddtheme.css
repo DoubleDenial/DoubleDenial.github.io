@@ -1,0 +1,45 @@
+body {
+	background-color: #2A2A2A;
+	color: #EEE;
+	font-family: sans-serif;
+}
+#maintab {
+	background-color: #1A1A1A;
+	width: 50.6%;
+	margin: auto;
+	border-width: 2px;
+	border-color: #444;
+	border-radius: 10px;
+	border-style: solid;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+#maintab2 {
+	background-color: #1A1A1A;
+	width: 60.6%;
+	margin: auto;
+	border-width: 2px;
+	border-color: #444;
+	border-radius: 10px;
+	border-style: solid;
+}
+#bodytab {
+	background-color: #2A2A2A;
+	width: 80%;
+	margin: auto;
+	border-width: 2px;
+	border-color: #444;
+	border-radius: 10px;
+	border-style: solid;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+button {
+	cursor: pointer;
+}
+.centertext {
+	text-align: center;
+}
+a {
+	color: #EEE;
+}
