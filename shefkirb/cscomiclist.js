@@ -16,7 +16,8 @@ var comicsrcs = [
 "https://shefwerld.github.io/shefkirb/comics/media/apple/15.png",
 "https://shefwerld.github.io/shefkirb/comics/media/apple/16.png",
 "https://shefwerld.github.io/shefkirb/comics/media/apple/17.png",
-"https://shefwerld.github.io/shefkirb/comics/media/apple/18.png"];
+"https://shefwerld.github.io/shefkirb/comics/media/apple/18.png",
+"https://shefwerld.github.io/shefkirb/comics/media/apple/19.png"];
 var comicnames = [
 "No Arms",
 "Philosophy Vs. Dinosaurs",
@@ -35,7 +36,8 @@ var comicnames = [
 "Smoking",
 "Anniversary Edition",
 "Hopsital",
-"Gullible 2"];
+"Gullible 2",
+"Therapist"];
 var x = Math.round(Math.random())
 if (x == 1) {
 	comicnames[12]="Yanny";
