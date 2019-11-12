@@ -18,7 +18,7 @@ var comicsrcs = [
 "https://shefwerld.github.io/shefkirb/comics/media/apple/17.png",
 "https://shefwerld.github.io/shefkirb/comics/media/apple/18.png",
 "https://shefwerld.github.io/shefkirb/comics/media/apple/19.png",
-"https://shefwerld.github.io/shefkirb/comics/media/apple/20.png];
+"https://shefwerld.github.io/shefkirb/comics/media/apple/20.png"];
 var comicnames = [
 "No Arms",
 "Philosophy Vs. Dinosaurs",
