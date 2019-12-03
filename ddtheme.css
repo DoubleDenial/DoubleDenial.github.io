@@ -1,0 +1,28 @@
+body {
+	background-color: #DDD;
+	color: #111;
+	font-family: sans-serif;
+	text-align: center;
+}
+h2 {
+	display: inline;
+}
+#maintab {
+	background-color: #FFF;
+	width: 750px;
+	margin: auto;
+	padding-left: 125px;
+	padding-right: 125px;
+	overflow: auto;
+	padding-bottom: 1%;
+}
+.h2 {
+	font-size: 24px;
+}
+a {
+	color: #33A;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
