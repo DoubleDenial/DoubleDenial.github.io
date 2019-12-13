@@ -40,7 +40,8 @@ var comicnames = [
 "Hopsital",
 "Gullible 2",
 "Therapist",
-"Your Head"];
+"Your Head",
+"Female"];
 var x = Math.round(Math.random())
 if (x == 1) {
 	comicnames[12]="Yanny";
