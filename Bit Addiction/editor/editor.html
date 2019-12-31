@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset="utf-8" />
+<title>Bit Addiction</title>
+</head>
+<body>
+<canvas id="canvas" width="684px" height="580px" style="display:inline; background-color: #fff; border: 1px solid black;"></canvas>
+<input type="color" id="color" style="display:inline; width: 100px; height: 100px;" />
+
+
+
+<script>
+var c = document.getElementById("canvas"); //LOAD CANVAS
+var ctx = c.getContext("2d");
+ctx.msImageSmoothingEnabled = false;
+ctx.imageSmoothingEnabled = false;
+var mouseClick = false;
+var x = 0;
+var y = 0;
+var color = document.getElementById("color");
+
+var imgsize, imagerow, imagecolumn;
+
+var image = [
+	["0", "0", "0", "0", "0"],
+	["0", "0", "0", "0", "0"],
+	["0", "0", "0", "0", "0"],
+	["0", "0", "0", "0", "0"],
+	["0", "0", "0", "0", "0"]
+];
+
+var backgroundImage1 = new Image();
+	backgroundImage1.src = '../gameFiles/bg1.png';
+var backgroundImage2 = new Image();
+	backgroundImage2.src = '../gameFiles//bg2.png';
+var tile = new Image();
+	tile.src = '../gameFiles/tile.png';
+var emptytile = new Image();
+	emptytile.src = '../gameFiles/emptytile.png';
+var scenery = new Image();
+	scenery.src = '../gameFiles/scenery.png';
+var wrong = new Image();
+	wrong.src = '../gameFiles/wrong.png';
+	
+var clank = new Audio('../gameFiles/clank.ogg');
+var swoosh = new Audio('../gameFiles/swoosh.ogg');
+
+canvas.addEventListener("mousemove", getPosition);
+function getPosition(event) {
+	x = event.x - c.offsetLeft;
+	y = event.y - c.offsetTop + window.scrollY;
+}
+document.body.onmousedown = function() { 
+	mouseClick = true;
+}
+canvas.addEventListener("mouseleave", function() {
+	mouseClick = false;
+	x = 0;
+	y = 0;
+});
+
+function draw(){
+	ctx.clearRect(0, 0, c.width, c.height);
+	ctx.drawImage(backgroundImage1, 0, 0);
+	if (image.length < image[0].length) {
+		imgsize = 400 / (image[0].length * 19);
+	} else {
+		imgsize = 400 / (image.length * 19);
+	}
+	
+	for (j = 0; j < image.length; j++) {
+		for (i = 0; i < image[j].length; i++) {
+			if (image[j][i] == "0") {
+				ctx.drawImage(emptytile, 273 + i * (19 * imgsize), 168 + j * (19 * imgsize), 19 * imgsize, 19 * imgsize);
+			} else {
+				ctx.drawImage(tile, 273 + i * (19 * imgsize), 168 + j * (19 * imgsize), 19 * imgsize, 19 * imgsize);
+				ctx.fillStyle = "#" + image[j][i].substring(2);
+				ctx.globalAlpha = 0.5;
+				ctx.fillRect(273 + i * (19 * imgsize), 168 + j * (19 * imgsize), 19 * imgsize, 19 * imgsize);
+				ctx.globalAlpha = 1;
+			}
+		}
+	}
+	
+	if (x > 273 && x < 673 && y > 168 && y < image.length * imgsize * 19 + 168) {
+		document.body.style.cursor = "pointer";
+		if (mouseClick == true) {
+			imagerow = image[Math.floor((y - 168) / (19 * imgsize))];
+			imagecolumn = Math.floor((x - 273) / (19 * imgsize));
+			if (imagerow[imagecolumn] == "0") {
+				imagerow[imagecolumn] = "0x" + color.value.substr(1);
+				console.log(imagerow[imagecolumn]);
+				let newAudio = clank.cloneNode()
+				newAudio.play();
+			} else {
+				imagerow[imagecolumn] = "0";
+				let newAudio = swoosh.cloneNode()
+				newAudio.play();
+			}
+		}
+	} else {
+		document.body.style.cursor = "default";
+	}
+	mouseClick = false;
+	requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+
+</body>
+</html>
