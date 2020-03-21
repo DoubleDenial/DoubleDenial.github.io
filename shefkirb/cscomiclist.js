@@ -21,7 +21,8 @@ var comicsrcs = [
 "https://shefwerld.github.io/shefnews/comics/media/apple/20.png",
 "https://shefwerld.github.io/shefnews/comics/media/apple/21.png",
 "https://shefwerld.github.io/shefnews/comics/media/apple/22.png",
-"https://shefwerld.github.io/shefnews/comics/media/apple/23.png"];
+"https://shefwerld.github.io/shefnews/comics/media/apple/23.png",
+"https://shefwerld.github.io/shefnews/comics/media/apple/24.png"];
 var comicnames = [
 "No Arms",
 "Philosophy Vs. Dinosaurs",
@@ -45,7 +46,8 @@ var comicnames = [
 "Your Head",
 "Female",
 "Merry Christmas",
-"Vegan"];
+"Vegan",
+"America"];
 if (Math.round(Math.random()) == 1) {
 	comicnames[12]="Yanny";
 	comicsrcs[12]="https://shefwerld.github.io/shefnews/comics/media/apple/13a.png";
