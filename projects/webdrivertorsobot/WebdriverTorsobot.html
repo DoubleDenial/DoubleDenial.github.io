@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>tmp</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<style>
+body {
+	font-family:sans-serif;
+}
+p {
+	display: inline-block;
+}
+div {
+	position:fixed;
+	bottom:0;
+	background: rgb(0,0,0);
+	background: linear-gradient(0deg, rgba(0,0,0,0.5998599268809086) 0%, rgba(0,0,0,0.4345938204383316) 37%, rgba(0,0,0,0) 100%);
+	width:100%;
+	left:0;
+	padding-left:20px;
+	color: white;
+}
+a {
+	text-decoration: none;
+	color: white;
+}
+a:hover {
+	text-decoration: underline;
+	color: white;
+}
+</style>
+</head>
+<body>
+<canvas id="canvas" style="background-color: #FFF; width: 100%;"></canvas>
+<div id="bottomBar"><p>Made by <b>DoubleDenial</b>, 2019 - <a href="https://doubledenial.github.io"><i>My Site</i></a> - <a href="https://www.youtube.com/channel/UC4Rgj8NvY3CLd-hYJloQ4ow"><i>My YouTube</i></a> | <a href="https://www.youtube.com/channel/UCsLiV4WJfkTEHH0b9PmRklw"><i>Support the original creator</i></a> | <a href="#" onclick="document.getElementById('bottomBar').style.display = 'none';"><b>Hide this</b></p></div>
+<script>
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+var x = 0;
+var y = 0;
+var slidenum = 0;
+var tick = 0;
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+var t = Math.random().toString(36).substring(7);
+var t1 = JSON.parse(JSON.stringify(t)).toUpperCase();
+var t2 = "";
+for (var i = 0; i < t.length; i++) {
+	if (Math.round(Math.random())) {
+		t2 += t1[i];
+	} else {
+		t2 += t[i];
+	}
+}
+document.title = "tmp" + t2;
+
+function zeroPad(number, nlength) {
+	while(number.toString().length < nlength){
+		number = "0".concat(number.toString());
+	}
+	return number;
+}
+function draw(){
+	c.width = window.innerWidth;
+	c.height = window.innerHeight;
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "#F00";
+	ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * canvas.width, Math.random() * canvas.height);
+	ctx.fillStyle = "#00F";
+	ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * canvas.width, Math.random() * canvas.height);
+	ctx.font = "14px Arial";
+	ctx.fillStyle = "#000";
+	ctx.fillText("aqua.flv - slide ".concat(zeroPad(slidenum, 4)), 3, canvas.height - 20);
+	slidenum++;
+}
+draw();
+setInterval(draw, 1000);
+</script>
+</body>
+</html>
