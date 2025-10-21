@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Are you?</title>
+		<meta charset="utf-8"/>
+		
+		<style>
+			body {
+				display: flex;
+				min-height: 100vh;
+				margin: 0;
+				
+				justify-content: center;
+				align-items: center;
+				
+				background: white;
+				overflow: hidden;
+			}
+			#canvasLink {
+				position: absolute;
+				width: 216px;
+				height: 292px;
+			}
+			#canvas { position: absolute; }
+		</style>
+		
+		<link id="favicon" rel="shortcut icon" type="image/x-icon" href="src/normal.ico"/>
+	</head>
+	<body>
+		<a id="canvasLink" target="_blank"><canvas id="canvas" width="216px" height="292px"></canvas></a>
+		
+		<script src="main.js"></script>
+	</body>
+</html>
