@@ -32,7 +32,7 @@ const favicon = document.getElementById("favicon"),
 var clock = 0, lastTimestamp;
 
 function MAIN(timestamp) {
-	if (lastTimestamp) Math.min(clock += (timestamp - lastTimestamp) / 16, 10);
+	if (lastTimestamp) clock += Math.min((timestamp - lastTimestamp) / 16, 10);
 	lastTimestamp = timestamp;
 	
 	if (endCard.active) {
@@ -158,4 +158,5 @@ img_sheet.addEventListener("load", function() {
 	ctx.fillStyle = "#000";
 	ctx.fillText("Click me to begin.", 108, 59);
 	window.addEventListener("click", function() { requestAnimationFrame(MAIN); }, { passive: true, once: true });
+
 }, { passive: true, once: true });
