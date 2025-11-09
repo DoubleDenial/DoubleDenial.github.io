@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Web DTMF Keypad</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<style>
+			@keyframes clicked {
+				from { filter: brightness(0.6); }
+				to { filter: none; }
+			}
+			
+			body {
+				margin: 0;
+				height: 100vh;
+				min-width: 170px;
+				min-height: 170px;
+				
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: stretch;
+				
+				text-align: center;
+				font: small sans-serif;
+			}
+			main {
+				display: flex;
+				flex-grow: 1;
+				
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-items: stretch;
+				gap: 5px;
+				
+				margin: 5px;
+			}
+			noscript { width: 100%; }
+			button {
+				width: 22%;
+				flex-grow: 1;
+				font-size: 9vh;
+			}
+			button.clicked { animation: clicked 0.3s; }
+			
+			@media(max-height: 170px) {
+				h1 { margin-top: 2em; }
+				button { font-size: 15px; }
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Web DTMF Keypad</h1>
+		
+		<main><noscript>Please enable JavaScript to run this program.</noscript></main>
+		
+		<p><a href="https://doubledenial.neocities.org">doubledenial</a> 2025</p>
+		
+		<script>
+			const audioCtx = new AudioContext();
+			const gainNode = audioCtx.createGain();
+			gainNode.gain.value = 0.2;
+			gainNode.connect(audioCtx.destination)
+
+			function playTone(frequency) {
+				const tone = new OscillatorNode(audioCtx, { frequency: frequency });
+				tone.connect(gainNode);
+				tone.start();
+				setTimeout(function() {
+					tone.stop();
+				}, 100);
+			}
+
+			const freqRows = [697, 770, 852, 941];
+			const freqCols = [1209, 1336, 1477, 1633];
+			const buttonLabels = "123A456B789C*0#D";
+
+			const buttonZone = document.querySelector("main");
+			const buttons = [];
+			for (let y = 0; y < 4; y++) {
+				for (let x = 0; x < 4; x++) {
+					const btn = document.createElement("button");
+					btn.textContent = buttonLabels[x+y*4];
+					btn._freq1 = freqRows[y];
+					btn._freq2 = freqCols[x];
+					btn.addEventListener("click", btnCallback, { passive: true });
+					buttonZone.appendChild(btn);
+					buttons.push(btn);
+				}
+			}
+			function btnCallback() {
+				this.classList.remove("clicked");
+				this.offsetWidth;
+				this.classList.add("clicked");
+				playTone(this._freq1);
+				playTone(this._freq2);
+			}
+
+			document.addEventListener("keydown", function(e) {
+				const i = buttonLabels.indexOf(e.key.toUpperCase());
+				if (i > -1) {
+					const btn = buttons[i];
+					btn.click();
+				}
+			}, { passive: true });
+		</script>
+	</body>
+</html>
