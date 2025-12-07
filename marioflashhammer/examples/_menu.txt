@@ -1,0 +1,83 @@
+Example
+new/heights
+Tricky Heights
+DoubleDenial
+Bog standard ground/athletic level.
+new/smearvel
+smearvel
+DoubleDenial
+I made crazy terrain with the select tool's smear function, then decorated it with the pencil.\nFind the hidden room!
+new/bill
+Bill Race
+DoubleDenial
+A.K.A. "Hold right to win!"
+new/gauntlet
+The Gauntlet
+DoubleDenial
+You're up against 16 rooms of enemies. Good luck.
+new/ismfb
+It shot my firstborn
+DoubleDenial
+
+new/auto
+Automagic
+DoubleDenial
+I made a short automatic level with the limited palette. It's a little janky...
+new/hotel
+Hotel Havoc
+DoubleDenial
+Will you uncover the secrets of the crusty old inn... and escape with your life?
+----
+Classic
+smf/level1
+level 1
+Pouetpu
+
+smf/level2
+level 2
+Pouetpu
+
+smf/level3
+level 3
+Pouetpu
+
+smf/level4
+level 4
+Pouetpu
+
+smf/level5
+level 5
+Pouetpu
+
+smf/level6
+level 6
+Pouetpu
+
+smf/level7
+level 7
+Pouetpu
+
+smf/level8
+level 8
+Pouetpu
+
+smf/level9
+level 9
+Pouetpu
+
+smf/koopacastle
+koopa castle
+Pouetpu
+DOUBLEDENIAL: The Bowser fight uses a third zone and can't fit into the editor format, but it's identical to the one in level 5.
+smf/passage1
+passage 1
+Pouetpu
+DOUBLEDENIAL: This uses the left entrance. The right entrance spawns you at (540, 220).
+smf/toadhouse
+toad house
+Pouetpu
+DOUBLEDENIAL: This is how the tylemap is stored internally. Graphics are laid over it in the main game.
+smf/secretshop
+secret shop
+Pouetpu
+DOUBLEDENIAL: Just like the regular Toad house, special graphics are laid over this in the main game.

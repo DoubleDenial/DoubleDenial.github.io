@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>MarioFlashHammer - for building, viewing, and editing Super Mario Flash levels</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
+		
+		<style>
+			body {
+				margin: 0;
+				height: 100vh;
+				
+				display: flex;
+				justify-content: flex-start;
+				align-items: stretch;
+				
+				font-family: sans-serif;
+				overflow: hidden;
+			}
+			
+			#toolbar {
+				width: 20vw;
+				height: 100vh;
+				resize: horizontal;
+				min-width: 160px;
+				display: flex;
+				gap: 3px;
+				flex-direction: column;
+				overflow: hidden auto;
+			}
+			.horiz {
+				display: flex;
+				gap: 2px;
+			}
+			.horiz > * { width: 0; flex-grow: 1; }
+			#toolbar > button, .horiz > button, .tool {
+				min-height: 32px;
+				flex-shrink: 0;
+				box-sizing: border-box;
+			}
+			#toolbar > button.disabled, .horiz > button.disabled {
+				opacity: 0.5;
+				pointer-events: none;
+			}
+			.hidePointless .tool.pointless { display: none; }
+			
+			#toolbox {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				gap: 1%;
+				margin-top: 1%;
+			}
+			.tool {
+				width: 15%;
+				height: auto;
+				margin-bottom: 1%;
+				aspect-ratio: 1/1;
+				position: relative;
+			}
+			.tool::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: no-repeat content-box var(--graphic) center/contain;
+				padding: 3px;
+				box-sizing: border-box;
+			}
+			
+			#levelArea {
+				flex-grow: 1;
+				overflow: auto;
+				position: relative;
+			}
+			#levelArea canvas {
+				user-select: none;
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+			}
+			
+			#paneContainer > div, .dialog, #filePicker { display: none; }
+			
+			#paneContainer > div.active { display: block; }
+			#paneContainer p:first-child, .dialog p:first-child { margin-top: 0; }
+			#paneContainer p:last-child, .dialog p:last-child { margin-bottom: 0; }
+			#paneContainer button { margin: 2px 2px 0 0; }
+			
+			.dialog.active {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				overflow-y: auto;
+			}
+			.dialog::before, .dialog::after {
+				content: "";
+				flex-grow: 1;
+			}
+			.dialog > div, .dialog textarea { min-width: 50vw; }
+			#examplesDialog > div { width: 50vw; }
+			.dialog textarea {
+				display: block;
+				height: 10em;
+			}
+			.exampleLevelTable {
+				overflow-y: auto;
+				max-height: 60vh;
+				margin-bottom: 2px;
+				display: none;
+			}
+			.exampleLevelTable h1, .exampleLevelTable h2, .exampleLevelTable p { margin: 0; }
+			.exampleLevelTable button { float: right; }
+			.exampleLevelTable.active { display: block; }
+		</style>
+	</head>
+	<body>
+		<input type="file" id="filePicker"/>
+		
+		<div id="toolbar">
+			<div class="horiz">
+				<button id="newButton">New</button>
+				<button id="saveButton">Save</button>
+				<button id="loadButton">Load</button>
+				<button id="helpButton">Help</button>
+			</div>
+			<div class="horiz">
+				<button id="undoButton">Undo</button>
+				<button id="redoButton">Redo</button>
+			</div>
+			<select id="zoneSelect">
+				<option value="0">Main Level</option>
+				<option value="1">Bonus Zone</option>
+			</select>
+			<select id="bgSelect">
+				<option value="1">1. Clouds</option>
+				<option value="2">2. Underground</option>
+				<option value="3">3. Forest</option>
+				<option value="4">4. Castle</option>
+				<option value="5">5. Night Sky</option>
+				<option value="6">6. Ghost House</option>
+			</select>
+			<select id="musicSelect">
+				<option value="1">1. Overworld (SMB1)</option>
+				<option value="2">2. Overworld (SMW)</option>
+				<option value="3">3. Athletic (SMB3)</option>
+				<option value="4">4. World Map (SMB3)</option>
+				<option value="5">5. Underground (SMB1)</option>
+				<option value="6">6. Castle (SMW)</option>
+				<option value="7">7. Bowser (SMB1)</option>
+				<option value="8">8. World Map (SMW)</option>
+				<option value="9">9. Starman (SMB1)</option>
+				<option value="10">10. Level Clear (SMB1)</option>
+				<option value="11">11. World Clear (SMB1)</option>
+			</select>
+			
+			<div id="toolbox"></div>
+			
+			<div id="paneContainer">
+				<div id="metadataPane">
+					<div data-name="levelInfo">
+						<p>Level name: <input data-name="nameDisplay"/></p>
+						<div data-name="fillArea"></div>
+						<p style="margin-bottom: 0;">Author?: <input type="checkbox" data-name="authorToggle"/> <input data-name="author" style="display: none;"/><br/>
+						Author comment?: <input type="checkbox" data-name="authorCommentToggle"/></p>
+						<textarea style="
+							display: none;
+							margin-top: 0.5ex; 
+							width: 100%;
+							min-height: 5em;
+							box-sizing: border-box;
+							resize: vertical;
+						" data-name="authorComment"></textarea>
+					</div>
+					<div data-name="placeStartHint">
+						<p>Use the mouse to place the start position in the level.</p>
+						<p>Press escape, backspace, or delete to cancel this action.</p>
+						<button data-name="placeStartCancel">Cancel</button>
+					</div>
+					<div data-name="placeFlagHint">
+						<p>Left-click to quickly place a functional flagpole in the level. (You can remove flagpoles with the regular eraser.)</p>
+						<p>The red bars show where the camera will pan to; keep it within the level bounds, or your exit will be ugly.</p>
+						<p>Press escape, backspace, or delete to cancel this action.</p>
+						<button data-name="placeFlagCancel">Cancel</button>
+					</div>
+				</div>
+				<div id="lookPane">
+					<p>Click and drag to move the camera.</p>
+					<p><i>Tip: Use the middle mouse button to move the camera while using any tool!</i></p>
+				</div>
+				<div id="zoomPane">
+					<p>Left and right-click to zoom in and out.</p>
+					<p>
+						Toggle the primary mode:<br/>
+						<input type="radio" name="zoomPaneOption" id="zoomPaneInOption" data-name="zoomIn"/><label for="zoomPaneInOption"> Zoom in</label><br/>
+						<input type="radio" name="zoomPaneOption" id="zoomPaneOutOption" data-name="zoomOut"/><label for="zoomPaneOutOption"> Zoom out</label>
+					</p>
+					<p><i>Tip: Use the scroll wheel, or Ctrl+minus and Ctrl+plus, to zoom in and out while using any tool!</i></p>
+				</div>
+				<div id="tylePane">
+					<p>Left-click to draw, right-click to erase.</p>
+					<p style="margin-bottom: 0.5ex;">Select a tyle by clicking on it below:</p>
+					<canvas data-name="canvas" style="width: 100%; display: block;"></canvas>
+					<p style="margin-top: 0.5ex;">TyleID: <input type="number" data-name="rawTyleId"/></p>
+				</div>
+				<div id="selectPane">
+					<p>Click and drag to select a rectangle of tyles. Drag a selection to move it around. Hold shift while dragging to smear.</p>
+					<p>Use Ctrl+X, Ctrl+C, and Ctrl+V to cut, copy, and paste. Right-click with a selection active to quickly duplicate it.</p>
+				</div>
+				<div id="eyedropperPane">
+					<p>Click on a tile to sample it.</p>
+					<p><i>Tip: Use Ctrl+left-click to sample a tile while using any tool!</i></p>
+				</div>
+				<div id="warpsPane">
+					<div data-name="creator">
+						<p>Choose a warp to create:</p>
+					</div>
+					<div data-name="placeWarpHint">
+						<p>Use the mouse to place the warp in the level. You may not place a warp over existing geometry.</p>
+						<p>Press escape, backspace, or delete to cancel this action.</p>
+						<button data-name="placeWarpCancel">Cancel</button>
+					</div>
+					<div data-name="warpInfo">
+						<p data-name="entryDisplay">Entry X: <span data-name="entryX"></span><br/>
+						Entry Y: <span data-name="entryY"></span><br/></p>
+					</div>
+					<div data-name="placeExitHint">
+						<p>Use the mouse to place the warp exit in the level.</p>
+						<p>Press escape, backspace, or delete to cancel this action.</p>
+						<button data-name="placeExitCancel">Cancel</button>
+					</div>
+				</div>
+				<div id="viewPane">
+					<p>Move the mouse to see the visible region in-game from a specific position in the level.</p>
+					<p>
+						<input type="checkbox" id="viewPaneGridSnapOption" data-name="snap"/><label for="viewPaneGridSnapOption"> Snap to grid</label>
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<div id="levelArea">
+			<canvas id="canvas" width="3600" height="192"></canvas>
+		</div>
+		
+		<div class="dialog" id="saveDialog">
+			<div>
+				<p style="margin: 0;">Level text (read only):</p>
+				<textarea readonly></textarea>
+				<div class="horiz horiz-bottom"></div>
+			</div>
+		</div>
+		
+		<div class="dialog" id="loadDialog">
+			<div>
+				<textarea placeholder="Input level text here."></textarea>
+				<div class="horiz horiz-bottom"></div>
+			</div>
+		</div>
+		
+		<div class="dialog" id="examplesDialog">
+			<div>
+				<div id="exampleLevelSections" class="horiz horiz-tabbed">Loading...</div>
+				<div class="horiz horiz-bottom"></div>
+			</div>
+		</div>
+		
+		<div class="dialog" id="helpDialog">
+			<div>
+				<p><b>MarioFlashHammer</b> - for building, viewing, and editing Super Mario Flash levels<br/>
+				Version 1.0 (12/7/2025)</p>
+				<p>For questions, suggestions, or bug reports, <a href="https://doubledenial.neocities.org">contact me</a>.</p>
+				<p>
+					<label for="helpDialogSkinOption">Skin: </label><select id="helpDialogSkinOption">
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+						<option value="hotdog-stand">Hotdog Stand</option>
+					</select><br/>
+					<input type="checkbox" id="helpDialogToolsOption"/><label for="helpDialogToolsOption"> Hide tools replaceable by keyboard/mouse shortcuts</label>
+				</p>
+				<div class="horiz horiz-bottom"></div>
+			</div>
+		</div>
+		
+		<script src="main.js"></script>
+	</body>
+</html>

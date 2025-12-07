@@ -1,0 +1,50 @@
+body { color: #000; }
+button, input, textarea, select {
+	background: #e9e9ed;
+	color: #000;
+	border: 1px solid #8f8f9d;
+}
+input, textarea { background: #fff; }
+button:hover, input:hover, textarea:hover, select:hover { border-color: #434348; }
+
+#toolbar {
+	padding: 2px;
+	border-right: 1px solid #000;
+	background: #aaf;
+}
+#toolbar > button, .horiz > button, .tool {
+	border: 2px solid #64707b !important;
+	background: #e9e9ed;
+}
+#toolbar > button.active, .horiz > button:active, .tool:active, .tool.active {
+	border-style: inset !important;
+	background: #bcc3d7;
+}
+.horiz-tabbed > button, .horiz-tabbed > button:active {
+	border-radius: 10px 10px 0 0;
+	border-bottom: none !important;
+}
+.horiz-tabbed > button.disabled {
+	opacity: 1;
+	background: #64707b;
+	color: #e9e9ed;
+}
+
+#levelArea { background: linear-gradient(#eef, #bbf); }
+
+#paneContainer > div, .dialog > div {
+	background: #e0e5f0;
+	border: 1px solid #64707b;
+	padding: 3px;
+}
+
+.dialog.active { background: #000a; }
+.exampleLevelTable {
+	border: solid #64707b;
+	border-width: 1px 2px 2px;
+}
+.exampleLevelTable div {
+	padding: 7px;
+	border-bottom: 1px solid #64707b;
+}
+.exampleLevelTable div:last-child { border-bottom: none; }

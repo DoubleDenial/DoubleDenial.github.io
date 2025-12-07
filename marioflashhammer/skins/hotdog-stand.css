@@ -1,0 +1,5 @@
+@import url("light.css");
+
+#toolbar, .dialog > div { background: #f00; }
+#levelArea, #paneContainer > div, .exampleLevelTable { background: #ff0; }
+#paneContainer > div, .dialog > div, .exampleLevelTable, .exampleLevelTable div { border-color: #000; }

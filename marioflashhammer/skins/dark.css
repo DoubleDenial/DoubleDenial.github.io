@@ -1,0 +1,49 @@
+body { color: #fff; }
+button, input, textarea, select {
+	background: #333;
+	color: #fff;
+	border: 1px solid #222;
+}
+button:hover, input:hover, textarea:hover, select:hover { border-color: #777; }
+
+#toolbar {
+	padding: 2px;
+	border-right: 1px solid #000;
+	background: #36364d;
+}
+#toolbar > button, .horiz > button, .tool {
+	border: 2px solid #222 !important;
+	background: #313131;
+}
+#toolbar > button.active, .horiz > button:active, .tool:active, .tool.active {
+	background: #222;
+}
+.horiz-tabbed > button, .horiz-tabbed > button:active {
+	border-radius: 10px 10px 0 0;
+	border-bottom: none !important;
+}
+.horiz-tabbed > button.disabled {
+	opacity: 1;
+	background: #515151;
+}
+.tool:active, .tool.active { background: #515151; }
+.tool::after { filter: invert(1); }
+
+#levelArea { background: linear-gradient(#1a1a31, #3b3b53); }
+
+#paneContainer > div, .dialog > div {
+	border: 1px solid #000;
+	padding: 3px;
+	background: #515151;
+}
+
+.dialog.active { background: #000a; }
+.exampleLevelTable {
+	border: solid #222;
+	border-width: 1px 2px 2px;
+}
+.exampleLevelTable div {
+	padding: 7px;
+	border-bottom: 1px solid #222;
+}
+.exampleLevelTable div:last-child { border-bottom: none; }
