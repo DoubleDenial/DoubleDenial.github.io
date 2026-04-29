@@ -30,21 +30,9 @@
 			}
 			body.running { cursor: none; }
 			
-			#systemMessage {
-				position: absolute;
-				top: 1ex;
-				margin: auto;
-				font-size: large;
-				text-shadow: 0 1px 2px #000;
-				animation: 0.4s linear forwards;
-				pointer-events: none;
-			}
-			#slideImage {
-				max-width: 100vw;
-				max-height: 100vh;
-				flex-grow: 1;
-				object-fit: contain;
-				pointer-events: none;
+			h1, h4 {
+				text-align: center;
+				margin: 0;
 			}
 			
 			#designArea {
@@ -71,34 +59,52 @@
 				line-height: 0.95em !important;
 			}
 			
-			#imageSlots > div {
-				display: flex;
-				gap: 1ex;
-				margin-top: 0.5ex;
+			#srcTable { border-collapse: collapse; }
+			#srcTable th, #srcTable td {
+				text-align: left;
+				border: 1px solid;
 			}
+			#srcTable th:first-child, #srcTable td:first-child { width: 100%; }
+			#srcTable th:last-child, #srcTable td:last-child { border: none; }
 			#designArea #addImageButton {
 				display: block;
-				margin: 0.5ex 0 2ex;
+				margin: .5ex 0 2ex;
 			}
-			#imageSlots button { line-height: 0; }
 			textarea.url {
+				width: calc(100% - 6px);
 				resize: none;
-				width: 25em;
-				flex-grow: 5;
 				white-space: nowrap;
 				overflow: hidden;
 			}
-			input.weight, #intervalInput { width: 5em; }
-			#shuffleHelp { color: GrayText; }
+			input[type=number] { width: 5em; }
+			
+			body.hideWeight .weight { display: none; }
+			body.hideDuration .duration { display: none; }
+			
 			#designArea #startButton {
 				display: block;
 				margin: 1em auto;
 				font-size: large !important;
 			}
 			
-			h1, h4 {
-				text-align: center;
-				margin: 0;
+			#systemMessage, #slideImage {
+				pointer-events: none;
+				user-select: none;
+				-webkit-user-select: none;
+			}
+			#systemMessage {
+				position: absolute;
+				top: 1ex;
+				margin: auto;
+				font-size: large;
+				text-shadow: 0 1px 2px #000;
+				animation: 0.4s linear forwards;
+			}
+			#slideImage {
+				max-width: 100vw;
+				max-height: 100vh;
+				flex-grow: 1;
+				object-fit: contain;
 			}
 		</style>
 	</head>
@@ -114,10 +120,17 @@
 			<button id="startButton">Start slideshow</button>
 			
 			<p style="margin: 0.5ex 0;">
-				<label for="intervalInput">Interval (seconds):</label> <input id="intervalInput" type="number"/><br/>
-				<label for="shuffleCheckbox">Shuffle?:</label> <input id="shuffleCheckbox" type="checkbox"/> <span id="shuffleHelp"></span>
+				<label for="shuffleCheckbox">Shuffle?:</label> <input id="shuffleCheckbox" type="checkbox"/><br/>
+				<label for="manualCheckbox">Manual control?:</label> <input id="manualCheckbox" type="checkbox"/>
 			</p>
-			<div id="imageSlots"></div>
+			<table id="srcTable">
+				<tr>
+					<th>Image URL</th>
+					<th class="weight">Weight</th>
+					<th class="duration">Duration (seconds)</th>
+					<th></th>
+				</tr>
+			</table>
 			<button id="addImageButton">+ Add image</button>
 			<p>When you're finished editing, you can copy the page URL to save it for later or share with others.</p>
 			
@@ -125,6 +138,6 @@
 			(tip: if you paste a newline-separated list of URLs into one of the entry boxes, it will fill the list automatically)</p>
 		</div>
 		
-		<script src="main.min.js"></script>
+		<script src="main.js"></script>
 	</body>
 </html>
