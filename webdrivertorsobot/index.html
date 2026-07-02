@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Webdriver Torsobot</title>
+		<meta charset="utf-8"/>
+		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+				font: medium sans-serif;
+			}
+			
+			ul {
+				margin: 0;
+				position: fixed;
+				left: 0;
+				top: 0;
+				width: 100%;
+				background: linear-gradient(0deg, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 20%) 37%, rgb(0 0 0 / 40%) 100%);
+				padding: 10px 20px 20px;
+				color: #fff;
+			}
+			ul li { display: inline; }
+			ul li::after { content: " | "; }
+			ul li:last-child::after { content: none; }
+			a {
+				font-style: italic;
+				text-decoration: none;
+				color: #fff;
+				cursor: pointer;
+			}
+			a[href] {
+				font-weight: bold;
+				font-style: normal;
+			}
+			a:hover { text-decoration: underline; }
+			
+			canvas {
+				width: 100%;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<li>made by <a href="https://doubledenial.com">DoubleDenial</a>, 2019–2026</li>
+			<li><a href="https://www.youtube.com/@realwebdrivertorso">support the original creator</a></li>
+			<li><a onclick="javascript:document.querySelector('ul').remove();">hide this</a></li>
+		</ul>
+		
+		<canvas id="canvas">This is an HTML canvas element, which your browser may not support.</canvas>
+		
+		<script>
+			const c = document.getElementById("canvas"), ctx = c.getContext("2d", {alpha: false});
+			document.title = "tmp" + (new Array(7)).fill(0).map(_ => "0123456789BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz"[Math.floor(Math.random() * 52)]).join("");
+			
+			const red = [0,0,0,0], blue = [0,0,0,0];
+			function updateRect(rect) {
+				rect[2] = Math.max(10, Math.random() * (c.width - (rect[0] = Math.random() * c.width)));
+				rect[3] = Math.max(10, Math.random() * (c.height - (rect[1] = Math.random() * c.height)));
+			}
+			
+			let slideCount = 0;
+			function update() {
+				updateRect(red);
+				updateRect(blue);
+				slideCount++;
+			}
+			update();
+			setInterval(update, 1000);
+			
+			function draw() {
+				c.width = window.innerWidth;
+				c.height = window.innerHeight;
+				ctx.fillStyle = "#fff";
+				ctx.fillRect(0, 0, c.width, c.height);
+				
+				ctx.fillStyle = "#00f";
+				ctx.fillRect(...red);
+				ctx.fillStyle = "#f00";
+				ctx.fillRect(...blue);
+				
+				ctx.font = "14px sans-serif";
+				ctx.fillStyle = "#000";
+				ctx.fillText("aqua.flv - slide " + slideCount.toString().padStart(4,0), 3, c.height - 20);
+				
+				requestAnimationFrame(draw);
+			}
+			draw();
+		</script>
+	</body>
+</html>
